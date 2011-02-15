@@ -25,6 +25,7 @@ from emailauth.models import UserEmail
 
 from emailauth.utils import (use_single_email, requires_single_email_mode,
     requires_multi_emails_mode, email_verification_days)
+from uuid import uuid4
 
 
 def login(request, template_name='emailauth/login.html',
@@ -95,7 +96,7 @@ def account(request, template_name=None):
     unverified_emails = UserEmail.objects.filter(user=request.user,
         default=False, verified=False)
 
-    return render_to_response(template_name, 
+    return render_to_response(template_name,
         {
             'extra_emails': extra_emails,
             'unverified_emails': unverified_emails,
@@ -115,8 +116,7 @@ def default_register_callback(form, email):
     user.is_active = False
     user.email = email.email
     user.set_password(data['password1'])
-    user.save()
-    user.username = ('id_%d_%s' % (user.id, user.email))[
+    user.username = ('%s' % (uuid4()))[
         :get_max_length(User, 'username')]
     user.save()
     email.user = user
@@ -173,7 +173,7 @@ def verify(request, verification_key, template_name='emailauth/verify.html',
     verification_key = verification_key.lower() # Normalize before trying anything with it.
     email = UserEmail.objects.verify(verification_key)
 
-    
+
     if email is not None:
         email.user.message_set.create(message=_('%s email confirmed.') % email.email)
 
