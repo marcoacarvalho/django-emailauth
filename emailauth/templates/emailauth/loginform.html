@@ -5,7 +5,7 @@
     <a href="{% url emailauth_account %}">{% trans 'Account' %}</a>
     <a href="{% url logout %}">{% trans 'Logout' %}</a>
 {% else %}
-    <form action="{% url login %}" method="post">
+    <form action="{% url login %}" method="post">{% csrf_token %}
         <table>
             {{ form }}
         </table>
