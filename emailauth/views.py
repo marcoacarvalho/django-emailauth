@@ -72,7 +72,8 @@ def login(request, template_name='emailauth/login.html',
 
     return render_to_response(template_name, {
             'form': form,
-            redirect_field_name: redirect_to,
+            'redirect_field_name': redirect_field_name,
+            'redirect_to': redirect_to,
             'site_name': current_site.name,
         },
         context_instance=RequestContext(request))
