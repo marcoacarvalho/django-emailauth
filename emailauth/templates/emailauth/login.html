@@ -10,4 +10,5 @@
         <input type="submit" value="{% trans 'Login' %}" />
     </form>
     <a href="{% url emailauth_request_password_reset %}">{% trans 'Forgot your password?' %}</a>
+    <a href="{% url register %}">{% trans 'No account yet? Register now' %}</a>
 {% endblock %}
